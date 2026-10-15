@@ -32,9 +32,25 @@
 .primary:disabled{opacity:.47;cursor:not-allowed;box-shadow:none}
 .essay-question{font-size:14px;color:#4c6175;line-height:1.72;white-space:pre-line}
 @media(max-width:365px){.case-item{padding:11px}.case-line{font-size:12.5px}.case-choices{gap:7px}.case-choice{padding:10px 6px}}
+
+.home-fab{position:fixed;top:max(12px,env(safe-area-inset-top));left:12px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:rgba(10,22,52,.92);color:#fff !important;text-decoration:none;font-weight:800;font-size:14px;box-shadow:0 10px 26px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.home-fab:hover{transform:translateY(-1px)}
+.home-fab:focus-visible{outline:3px solid #ffcd61;outline-offset:3px}
+body.has-home-fab{padding-top:58px}
+@media (min-width:700px){.home-fab{top:18px;left:18px;font-size:15px;padding:11px 16px}}
+
+/* Chế độ học tập tập trung: chỉ hiển thị môn học và bài tập. */
+.hero,.stat-row,.footer-brand,.brand-sub,.mode-foot,.tool-hint{display:none!important}
+.simple-heading{margin:16px 0 15px}
+.simple-heading h2{font-size:clamp(22px,5vw,28px);margin:0}
+.topbar{margin-bottom:14px}
+
+/* Nút quay lại nằm trong luồng trang, không che câu hỏi. */
+.home-fab{position:sticky!important;top:0!important;left:auto!important;margin:0 0 6px 12px!important;box-shadow:none!important;border-radius:0 0 10px 10px!important;background:#243a5b!important;font-size:13px!important;padding:8px 12px!important}
 </style>
 </head>
 <body>
+<a class="home-fab" href="https://n2tnguyen051112-prog.github.io/MINI_GAME_LOP_7/" aria-label="Trở lại trang chủ mini game lớp 7">← Trang chủ</a>
 <canvas id="confetti" aria-hidden="true"></canvas>
 <main class="app" id="app"><div class="center" style="padding:65px 0">Đang mở trò chơi…</div></main>
 <script>
@@ -53,16 +69,14 @@ function sound(good){if(saved.muted)return;try{let Ctx=window.AudioContext||wind
 function vibrate(good){try{navigator.vibrate?.(good?17:[45,45,45])}catch{}}
 function htmlHeader(){return `<div class="topbar"><div class="brand"><span class="brand-mark">🛡️</span><div><div class="brand-title">HÀNH TRÌNH CÔNG DÂN 7</div><div class="brand-sub">THCS Vĩnh An • 2026–2027</div></div></div><div class="top-actions"><button class="icon-btn" id="sound" title="Bật/tắt âm thanh" aria-label="Bật hoặc tắt âm thanh">${saved.muted?'🔇':'🔊'}</button></div></div>`}
 function attachSound(){let s=$('sound');if(s)s.addEventListener('click',()=>{saved.muted=!saved.muted;save();s.textContent=saved.muted?'🔇':'🔊'})}
-function home(){stopTimer();game=null;let s=saved;let masteredPct=s.mastered?`${s.mastered}%`:'0%';$('app').innerHTML=htmlHeader()+`
- <section class="hero"><div class="eyebrow">🎒 Ôn tập giữa học kì I</div><h1>Học vui.<br>Nhớ lâu.<br>Điểm cao!</h1><p>Thử sức mỗi ngày, tích lũy kiến thức và bứt phá!</p><div class="hero-pill">✨ Càng chơi càng tiến bộ</div><div class="hero-mascot"><span class="mascot-circle"></span><span class="mascot-face" role="img" aria-label="Linh vật cú mèo">🦉</span><span class="spark one">✦</span><span class="spark two">✳</span><span class="spark three">✦</span></div></section>
- <div class="stat-row"><div class="stat"><strong>${s.best.toLocaleString('vi-VN')}</strong><span>🏆 Điểm kỷ lục</span></div><div class="stat"><strong>${s.plays}</strong><span>🎮 Lượt thử sức</span></div><div class="stat"><strong>${masteredPct}</strong><span>🎯 Tỉ lệ tốt nhất</span></div></div>
- <div class="section-head"><h2>Chọn màn chơi</h2><small>4 chế độ ✨</small></div>
- <div class="modes">
+function home(){stopTimer();game=null;$('app').innerHTML=htmlHeader()+`
+<div class="section-head simple-heading"><h2>Giáo dục công dân 7</h2></div>
+<div class="modes">
  <button class="mode" data-mode="quick"><span class="mode-icon gold">⚡</span><span class="mode-text"><span class="mode-name">Đấu trường tốc độ</span><span class="mode-desc">10 câu ngẫu nhiên · 3 phút · 3 trái tim</span><span class="mode-foot">+100 điểm / câu đúng · Combo thưởng</span></span><span class="mode-arrow">›</span></button>
  <button class="mode" data-mode="mc"><span class="mode-icon violet">🧠</span><span class="mode-text"><span class="mode-name">Chinh phục kiến thức</span><span class="mode-desc">21 câu trắc nghiệm · Học theo đề cương</span><span class="mode-foot">Không giới hạn thời gian</span></span><span class="mode-arrow">›</span></button>
  <button class="mode" data-mode="tf"><span class="mode-icon mint">🔎</span><span class="mode-text"><span class="mode-name">Thám tử Đúng / Sai</span><span class="mode-desc">8 tình huống · Mỗi tình huống đủ 4 nhận định a–d</span><span class="mode-foot">Thực hành tình huống thực tế</span></span><span class="mode-arrow">›</span></button>
  <button class="mode" data-mode="essay"><span class="mode-icon rose">💬</span><span class="mode-text"><span class="mode-name">Bậc thầy ứng xử</span><span class="mode-desc">5 thẻ tự luận · Tự nghĩ rồi xem gợi ý</span><span class="mode-foot">Luyện diễn đạt và vận dụng</span></span><span class="mode-arrow">›</span></button>
- </div><div class="footnote"><details><summary>📚 Nguồn câu hỏi và lưu ý dành cho giáo viên</summary><p>Phát triển từ đề cương giữa học kì I GDCD 7 của Trường THCS Vĩnh An (năm học 2026–2027). Có biên tập lỗi chính tả, rút gọn một số câu để dễ đọc trên điện thoại. Đáp án và lời giải thích do trò chơi biên soạn, không phải đáp án chính thức của trường.</p><p>Không chấm điểm tự động 3 câu có phương án dễ gây tranh luận:</p><ul>${BANK.excluded.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>Tiến bộ được lưu trên thiết bị nếu trình duyệt cho phép. Trò chơi chạy ngay trên trình duyệt, không thu thập thông tin cá nhân.</p></details></div><div class="footer-brand">MADE FOR CURIOUS MINDS ✦ CÔNG DÂN 7 • CẬP NHẬT 2</div>`;
+ </div>`;
  attachSound();document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.mode)));}
 function newGame(mode,questions){return {mode,questions,i:0,score:0,correct:0,wrong:[],answered:false,chosen:null,streak:0,maxStreak:0,hearts:3,halfUsed:false,hidden:[],remaining:180,started:Date.now(),prevCorrect:false}}
 function buildCaseQuestions(items){
