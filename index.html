@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html data-subject="GDCD 7" lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -40,7 +40,18 @@
 .nav-shortcuts .nav-btn:focus-visible{outline:3px solid #ffcd61;outline-offset:3px}
 body.with-nav-shortcuts{padding-top:68px}
 @media (max-width:420px){.nav-shortcuts{left:10px;right:10px}.nav-shortcuts .nav-btn,.nav-shortcuts a.nav-btn{padding:10px 12px;font-size:13px;min-height:40px}}
+#playstats-gate{position:fixed;inset:0;z-index:2147483646;display:grid;place-items:center;padding:20px;background:rgba(9,18,42,.9);color:#17233d;overflow:auto}
+#playstats-gate .playstats-panel{background:#fff;border-radius:20px;padding:24px;width:min(100%,440px);box-shadow:0 20px 70px rgba(0,0,0,.26);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;text-align:left}
+#playstats-gate h2{font-size:23px;font-weight:800;line-height:1.3;color:#182447;margin:0 0 8px}
+#playstats-gate p{font-size:14px;color:#495670;line-height:1.5;margin:8px 0 16px}
+#playstats-gate label{display:block;font-weight:700;color:#24354f;font-size:14px;margin:13px 0 6px}
+#playstats-gate input{display:block;width:100%;font-family:inherit;font-size:16px;border:1px solid #b9c9df;border-radius:11px;padding:12px;background:#fff;color:#17233d}
+#playstats-gate button{margin-top:14px;width:100%;border:0;border-radius:12px;padding:14px;background:#1560bd;color:#fff;font-weight:800;font-family:inherit;font-size:16px;min-height:48px;cursor:pointer}
+#playstats-gate .playstats-privacy{font-size:12px;color:#596781;margin-top:14px}
 </style>
+<script src="https://n2tnguyen051112-prog.github.io/MINI_GAME_LOP_7/config.js"></script>
+<script src="https://n2tnguyen051112-prog.github.io/MINI_GAME_LOP_7/tracker.js"></script>
+<script>window.PlayStats=window.PlayStats||{begin:()=>true,finish:()=>{}};</script>
 </head>
 <body class="with-nav-shortcuts">
 <div class="nav-shortcuts" aria-label="Điều hướng nhanh">
@@ -75,7 +86,7 @@ function home(){stopTimer();game=null;let s=saved;let masteredPct=s.mastered?`${
  <button class="mode" data-mode="mc"><span class="mode-icon violet">🧠</span><span class="mode-text"><span class="mode-name">Chinh phục kiến thức</span><span class="mode-desc">21 câu trắc nghiệm · Học theo đề cương</span><span class="mode-foot">Không giới hạn thời gian</span></span><span class="mode-arrow">›</span></button>
  <button class="mode" data-mode="tf"><span class="mode-icon mint">🔎</span><span class="mode-text"><span class="mode-name">Thám tử Đúng / Sai</span><span class="mode-desc">8 tình huống · Mỗi tình huống đủ 4 nhận định a–d</span><span class="mode-foot">Thực hành tình huống thực tế</span></span><span class="mode-arrow">›</span></button>
  <button class="mode" data-mode="essay"><span class="mode-icon rose">💬</span><span class="mode-text"><span class="mode-name">Bậc thầy ứng xử</span><span class="mode-desc">5 thẻ tự luận · Tự nghĩ rồi xem gợi ý</span><span class="mode-foot">Luyện diễn đạt và vận dụng</span></span><span class="mode-arrow">›</span></button>
- </div><div class="footnote"><details><summary>📚 Nguồn câu hỏi và lưu ý dành cho giáo viên</summary><p>Phát triển từ đề cương giữa học kì I GDCD 7 của Trường THCS Vĩnh An (năm học 2026–2027). Có biên tập lỗi chính tả, rút gọn một số câu để dễ đọc trên điện thoại. Đáp án và lời giải thích do trò chơi biên soạn, không phải đáp án chính thức của trường.</p><p>Không chấm điểm tự động 3 câu có phương án dễ gây tranh luận:</p><ul>${BANK.excluded.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>Tiến bộ được lưu trên thiết bị nếu trình duyệt cho phép. Trò chơi chạy ngay trên trình duyệt, không thu thập thông tin cá nhân.</p></details></div><div class="footer-brand">MADE FOR CURIOUS MINDS ✦ CÔNG DÂN 7 • CẬP NHẬT 2</div>`;
+ </div><div class="footnote"><details><summary>📚 Nguồn câu hỏi và lưu ý dành cho giáo viên</summary><p>Phát triển từ đề cương giữa học kì I GDCD 7 của Trường THCS Vĩnh An (năm học 2026–2027). Có biên tập lỗi chính tả, rút gọn một số câu để dễ đọc trên điện thoại. Đáp án và lời giải thích do trò chơi biên soạn, không phải đáp án chính thức của trường.</p><p>Không chấm điểm tự động 3 câu có phương án dễ gây tranh luận:</p><ul>${BANK.excluded.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>Tiến bộ được lưu trên thiết bị nếu trình duyệt cho phép. Khi bật hệ thống thống kê, tên hiển thị và kết quả sẽ được lưu trong bảng thống kê riêng của người quản lý.</p></details></div><div class="footer-brand">MADE FOR CURIOUS MINDS ✦ CÔNG DÂN 7 • CẬP NHẬT 2</div>`;
  attachSound();document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.mode)));}
 function newGame(mode,questions){return {mode,questions,i:0,score:0,correct:0,wrong:[],answered:false,chosen:null,streak:0,maxStreak:0,hearts:3,halfUsed:false,hidden:[],remaining:180,started:Date.now(),prevCorrect:false}}
 function buildCaseQuestions(items){
@@ -83,7 +94,7 @@ function buildCaseQuestions(items){
  items.forEach(q=>{if(!map.has(q.case))map.set(q.case,{id:'CASE-'+q.case,type:'tf-case',case:q.case,caseTitle:q.caseTitle,topic:q.topic,sit:q.sit,items:[]});map.get(q.case).items.push(q)});
  return [...map.values()].sort((a,b)=>a.case-b.case).map(group=>({...group,items:group.items.sort((a,b)=>a.id.localeCompare(b.id))}));
 }
-function start(mode,override){stopTimer();if(mode==='essay'){essayStep=0;essayDone=new Set();essayTexts={};essayRevealed=false;renderEssay();return}let qs;
+function start(mode,override){if(!PlayStats.begin(mode))return;stopTimer();if(mode==='essay'){essayStep=0;essayDone=new Set();essayTexts={};essayRevealed=false;renderEssay();return}let qs;
  if(override)qs=override.some(q=>q.type==='tf')?buildCaseQuestions(BANK.tf.filter(q=>new Set(override.filter(x=>x.type==='tf').map(x=>x.case)).has(q.case))):override;
  else if(mode==='quick')qs=shuffle(BANK.mc).slice(0,10);
  else if(mode==='mc')qs=shuffle(BANK.mc);
@@ -178,7 +189,7 @@ function submitCase(){
    if(g.i>=g.questions.length)finish('done');else{renderQuiz();window.scrollTo({top:0,behavior:'smooth'})}
  });
 }
-function finish(reason){if(!game)return;stopTimer();const g=game,total=g.questions.reduce((n,q)=>n+(q.type==='tf-case'?q.items.length:1),0),answered=g.correct+g.wrong.length,acc=answered?Math.round(g.correct/answered*100):0;
+function finish(reason){if(!game)return;stopTimer();const g=game,total=g.questions.reduce((n,q)=>n+(q.type==='tf-case'?q.items.length:1),0),answered=g.correct+g.wrong.length,acc=answered?Math.round(g.correct/answered*100):0;PlayStats.finish({score:g.score,correct:g.correct,total:answered,percent:acc,graded:true,note:reason});
  saved.plays++;if(g.score>saved.best)saved.best=g.score;if(acc>saved.mastered)saved.mastered=acc;save();
  let pct=answered?Math.round(g.correct/answered*100):0;
  const badge=pct>=90?'🏆 BẬC THẦY CÔNG DÂN':pct>=70?'🌟 NGÔI SAO HIỂU BIẾT':pct>=50?'🌱 NHÀ THÁM HIỂM BỀN BỈ':'🚀 DŨNG SĨ KHÔNG BỎ CUỘC';
@@ -200,7 +211,7 @@ function renderEssay(){stopTimer();const e=BANK.essays[essayStep];if(!e){renderE
  <div class="footnote">Gợi ý tự luận do trò chơi biên soạn để luyện tập; học sinh có thể diễn đạt khác nếu đúng ý, phù hợp tình huống.</div>`;
  attachSound();$('exit').addEventListener('click',()=>{if(confirm('Về màn hình chính? Các câu tự luận đã viết có thể bị mất.'))home()});$('essay-answer').addEventListener('input',e=>essayTexts[essayStep]=e.target.value);$('reveal').addEventListener('click',()=>{essayRevealed=!essayRevealed;$('guidearea').innerHTML=essayRevealed?essayGuide(e):'';$('reveal').textContent=essayRevealed?'🙈 Ẩn gợi ý':'💡 Xem gợi ý trả lời'});$('essay-next').addEventListener('click',()=>{essayTexts[essayStep]=$('essay-answer').value;essayDone.add(essayStep);essayStep++;essayRevealed=false;renderEssay();window.scrollTo({top:0,behavior:'smooth'})})}
 function essayGuide(e){return `<div class="guide"><strong>🌷 Những ý có thể trình bày:</strong><ul>${e.guide.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`}
-function renderEssayEnd(){$('app').innerHTML=htmlHeader()+`<div class="finished-essay"><span>🎓</span><h2>Hoàn thành 5 thẻ!</h2><p>Bạn đã luyện tập những tình huống về học tập tự giác, sự quan tâm và truyền thống quê hương. Giỏi lắm!</p></div><button class="primary" id="again">🔁 Ôn tự luận một lần nữa</button><button class="secondary" id="gohome">🏠 Về chọn màn chơi</button>`;attachSound();$('again').addEventListener('click',()=>start('essay'));$('gohome').addEventListener('click',home);confetti()}
+function renderEssayEnd(){PlayStats.finish({score:0,correct:0,total:0,graded:false,note:'Tự luận – chỉ tự đối chiếu'});$('app').innerHTML=htmlHeader()+`<div class="finished-essay"><span>🎓</span><h2>Hoàn thành 5 thẻ!</h2><p>Bạn đã luyện tập những tình huống về học tập tự giác, sự quan tâm và truyền thống quê hương. Giỏi lắm!</p></div><button class="primary" id="again">🔁 Ôn tự luận một lần nữa</button><button class="secondary" id="gohome">🏠 Về chọn màn chơi</button>`;attachSound();$('again').addEventListener('click',()=>start('essay'));$('gohome').addEventListener('click',home);confetti()}
 function confetti(){if(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;let canvas=$('confetti'),ctx=canvas.getContext('2d'),w=canvas.width=window.innerWidth,h=canvas.height=window.innerHeight;let particles=Array.from({length:95},()=>({x:Math.random()*w,y:-Math.random()*h*.5,dx:(Math.random()-.5)*3,dy:2+Math.random()*4,r:3+Math.random()*5,a:Math.random()*6,c:['#10c3ab','#ffcb60','#ff7b8b','#7764ec','#ffffff'][Math.floor(Math.random()*5)]}));let start=performance.now();function frame(now){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.x+=p.dx;p.y+=p.dy;p.a+=.07;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.7);ctx.restore()});if(now-start<2700)requestAnimationFrame(frame);else ctx.clearRect(0,0,w,h)}requestAnimationFrame(frame)}
 window.addEventListener('keydown',e=>{if(e.target?.tagName==='TEXTAREA')return;if(game&&!game.answered){let q=game.questions[game.i];if(q.type==='mc'&&'1234'.includes(e.key)){let b=document.querySelectorAll('.answer')[Number(e.key)-1];if(b&&!b.classList.contains('hidden-choice'))choose(letters[Number(e.key)-1])}else if(q.type==='tf'&&['1','2'].includes(e.key))choose(e.key==='1'?'true':'false')}else if(game&&game.answered&&e.key==='Enter')$('next')?.click()});
 home();
